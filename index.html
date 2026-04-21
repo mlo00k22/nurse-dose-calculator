@@ -51,7 +51,21 @@
 
         <label for="weightKg">Patient weight (kg)</label>
         <input id="weightKg" type="number" min="0" step="any" required />
+<label for="ageGroup">Age Group</label>
+<select id="ageGroup" required>
+  <option value="" disabled selected>Select Age Group</option>
+  <option value="neonate">Neonate</option>
+  <option value="pediatric">Pediatric</option>
+  <option value="adult">Adult</option>
+</select>
 
+<label for="condition">Patient Condition</label>
+<select id="condition" required>
+  <option value="" disabled selected>Select Condition</option>
+  <option value="icu">ICU</option>
+  <option value="emergency">Emergency</option>
+  <option value="stable">Stable</option>
+</select>
         <button type="submit">Calculate</button>
       </form>
 
