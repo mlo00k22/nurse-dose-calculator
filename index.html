@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nursing Dose Calculator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+
+    <!-- 🔐 شاشة تسجيل الدخول -->
+    <div id="loginScreen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#ffffff; display:flex; justify-content:center; align-items:center; z-index:9999;">
+      <div style="text-align:center; padding:30px; border:1px solid #eee; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.05);">
+        <h2>Secure Access</h2>
+        <p style="color:#666; font-size:14px;">Enter password to continue</p>
+        <input id="passwordInput" type="password" placeholder="Password" style="padding:10px; margin:10px; width:220px; border:1px solid #ccc; border-radius:6px;" />
+        <br>
+        <button onclick="checkLogin()" style="padding:10px 20px; border:none; background:#007bff; color:white; border-radius:6px; cursor:pointer;">
+          Enter
+        </button>
+        <p id="errorMsg" style="color:red; display:none; margin-top:10px;">Wrong password</p>
+      </div>
+    </div>
+
+    <!-- 🏥 الموقع -->
+    <main class="container">
+      <section class="hero card">
+        <div class="shape shape-one"></div>
+        <div class="shape shape-two"></div>
+        <div class="shape shape-three"></div>
+        <p class="emoji-line">🌈 ⭐ 🩺</p>
+        <h1>Nursing Dose Calculator</h1>
+        <p class="subtitle">Output is calculated in ml/hr based on hospital formula</p>
+      </section>
+
+      <form id="doseForm" class="card">
+        <label for="treatment">Medication</label>
+        <select id="treatment" required>
+          <option value="" selected disabled>Choose Medication</option>
+        </select>
+
+        <label for="doctorOrderValue">Doctor order value</label>
+        <input id="doctorOrderValue" type="number" min="0" step="any" required />
+
+        <label for="doctorOrderUnit">Order mode</label>
+        <select id="doctorOrderUnit" required>
+          <option value="kg_based">Per kilogram</option>
+          <option value="direct">Direct value</option>
+        </select>
+
+        <label for="weightKg">Patient weight (kg)</label>
+        <input id="weightKg" type="number" min="0" step="any" required />
+
+        <button type="submit">Calculate</button>
+      </form>
+
+      <section id="result" class="card result hidden"></section>
+      <section id="formulaInfo" class="card hidden"></section>
+
+      <section class="fun-strip card">
+        <p class="fun-title">Care with Love</p>
+        <p class="fun-emojis">🧸 🌸 🎈 ✨ 🌈 🩺 💛</p>
+        <p class="fun-emojis">🫶 😊 ⭐ 🐥 🌼 🎀</p>
+      </section>
+    </main>
+
+    <!-- 🏷️ الفوتر -->
+    <footer style="text-align:center; margin-top:60px; padding:20px; background:#f9f9f9; color:#555; font-size:13px;">
+      <strong style="font-size:14px;">Wasmiah Advanced Solutions</strong><br>
+      <span>وسمية للحلول المتقدمة</span><br>
+      <span style="margin-top:5px; display:block;">All rights reserved © 2026</span>
+    </footer>
+
+    <script src="./formulas.js"></script>
+    <script src="./app.js"></script>
+
+    <!-- 🔐 سكربت تسجيل الدخول -->
+ <script>
+  // إذا المستخدم مسجل دخول قبل
+  if (localStorage.getItem("loggedIn") === "true") {
+    document.getElementById("loginScreen").style.display = "none";
+  }
+
+  function checkLogin() {
+    const password = document.getElementById("passwordInput").value;
+
+    if (password === "1234") {
+      localStorage.setItem("loggedIn", "true");
+      document.getElementById("loginScreen").style.display = "none";
+    } else {
+      document.getElementById("errorMsg").style.display = "block";
+    }
+  }
+</script></script>
+
+  </body>
+</html>
