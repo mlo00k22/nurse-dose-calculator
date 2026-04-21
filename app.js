@@ -87,6 +87,10 @@ function validateInputs(treatment, doctorOrderValue, weightKg, orderMode) {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
+
+  const button = document.querySelector("button");
+  button.innerText = "Calculating...";
+  button.disabled = true;
   const treatment = getSelectedTreatment();
   const doctorOrderValue = Number(doctorOrderValueInput.value);
   const weightKg = Number(weightInput.value);
@@ -99,21 +103,33 @@ form.addEventListener("submit", (event) => {
     orderMode
   );
 
-  if (validationMessage) {
-    resultBox.classList.remove("hidden");
-    resultBox.innerHTML = `<p class="error">${validationMessage}</p>`;
-    return;
-  }
+if (validationMessage) {
+  resultBox.classList.remove("hidden");
+  resultBox.innerHTML = `<p class="error">${validationMessage}</p>`;
+
+  button.innerText = "Calculate";
+  button.disabled = false;
+  return;
+}
+  
 
   const rate = getCalculatedRate(treatment, doctorOrderValue, weightKg, orderMode);
-  if (!Number.isFinite(rate)) {
-    resultBox.classList.remove("hidden");
-    resultBox.innerHTML = `<p class="error">Unable to calculate. Check formula setup.</p>`;
-    return;
-  }
+if (!Number.isFinite(rate)) {
+  resultBox.classList.remove("hidden");
+  resultBox.innerHTML = `<p class="error">Unable to calculate. Check formula setup.</p>`;
 
+  button.innerText = "Calculate";
+  button.disabled = false;
+  return;
+}
+
+setTimeout(() => {
   showResult(rate, treatment);
   renderFormulaInfo(treatment);
+
+  button.innerText = "Calculate";
+  button.disabled = false;
+}, 800);
 });
 
 treatmentSelect.addEventListener("change", () => {
