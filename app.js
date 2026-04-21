@@ -1,21 +1,8 @@
-﻿const treatmentSelect = document.getElementById("treatment");
+const treatmentSelect = document.getElementById("treatment");
 const doctorOrderValueInput = document.getElementById("doctorOrderValue");
 const doctorOrderUnitSelect = document.getElementById("doctorOrderUnit");
 const weightInput = document.getElementById("weightKg");
-const form = document.getElementById("doseForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const button = document.querySelector("button");
-  button.innerText = "Calculating...";
-  button.disabled = true;
-
-  setTimeout(() => {
-    // هنا كود الحساب حقك (خله زي ما هو)
-
-    button.innerText = "Calculate";
-    button.disabled = false;
-  }, 1000);
-});
+const form = document.getElementById("doseForm");
 const resultBox = document.getElementById("result");
 const formulaInfoBox = document.getElementById("formulaInfo");
 
