@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   font-family: "Trebuchet MS", Arial, sans-serif;
   color: #114e60;
   background: #f8f7f2;
@@ -43,6 +43,15 @@ h1 {
   padding: 16px;
   margin-bottom: 12px;
   box-shadow: 0 8px 18px rgba(16, 93, 112, 0.08);
+
+  /* 🔥 تحسين */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
 }
 
 .hero {
@@ -124,10 +133,14 @@ button {
   color: #ffffff;
   font-weight: 700;
   font-size: 15px;
+
+  /* 🔥 تحسين */
+  transition: 0.3s;
 }
 
 button:hover {
   background: linear-gradient(90deg, #1a7f96, #0b6277);
+  transform: scale(1.05);
 }
 
 .hidden {
