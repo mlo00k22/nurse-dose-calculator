@@ -66,10 +66,26 @@ function getCalculatedRate(treatment, doctorOrderValue, weightKg, orderMode) {
 
 function showResult(value, treatment) {
   resultBox.classList.remove("hidden");
+
   const unit = treatment.mode === "mgToMlConversion" ? "ml" : "ml/hr";
+
   resultBox.innerHTML = `
-    <h2>Calculated rate</h2>
-    <p><strong>${formatNumber(value)} ${unit}</strong></p>
+    <div style="
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      border-left: 6px solid #0f6f87;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    ">
+      <h2 style="margin:0; color:#0f6f87;">Calculated Dose</h2>
+      <p style="font-size:28px; font-weight:bold; margin:10px 0; color:#114e60;">
+        ${formatNumber(value)} ${unit}
+      </p>
+      <p style="font-size:13px; color:#666;">
+        Medication: ${treatment.name}
+      </p>
+    </div>
   `;
 }
 
