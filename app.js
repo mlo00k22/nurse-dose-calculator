@@ -88,7 +88,22 @@ function showResult(value, treatment, ageGroup, condition, doctorOrderValue) {
       warning = "🚨 Above recommended range";
       color = "#b91c1c";
       reason = "⚠️ Dose exceeds recommended range. Double check and Confirm with physician (doctor) immediately.";
-    } 
+    
+  // 🔥 اهتزاز الكرت
+  setTimeout(() => {
+    const card = document.getElementById("result");
+    card.classList.add("shake");
+
+    setTimeout(() => {
+      card.classList.remove("shake");
+    }, 400);
+  }, 100);
+
+  // 📱 اهتزاز الجوال (لو مدعوم)
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200]);
+  }
+}
     else {
       warning = "✔ Within recommended range";
       color = "#15803d";
