@@ -170,20 +170,34 @@ button:hover {
   bottom: 120px;
   right: 40px;
 }  
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+/* 🌊 حركة احترافية */
+@keyframes floatMove {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) translateX(3px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-12px) translateX(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-6px) translateX(-3px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
 }
 
+/* تطبيق الحركة */
 .icon {
-  animation: float 4s ease-in-out infinite;
+  animation: floatMove 6s ease-in-out infinite;
 }
 
-/* كل عنصر بسرعة مختلفة */
-.duck { animation-duration: 5s; }
-.rainbow { animation-duration: 6s; }
-.star { animation-duration: 4s; }
-.bear { animation-duration: 5.5s; }
-.flower { animation-duration: 4.5s; }
-.ball { animation-duration: 6.5s; }
+/* اختلاف السرعات */
+.duck { animation-duration: 6s; }
+.rainbow { animation-duration: 8s; }
+.star { animation-duration: 5s; }
+.bear { animation-duration: 7s; }
+.flower { animation-duration: 6.5s; }
+.ball { animation-duration: 9s; }
