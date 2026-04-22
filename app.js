@@ -74,7 +74,7 @@ function showResult(value, treatment, ageGroup, condition) {
 
   let warning = "";
   let color = "#15803d";
-
+console.log("DEBUG:", treatment, ageGroup, condition, range);
   const range = treatment.ranges?.[ageGroup]?.[condition];
 
   if (range) {
