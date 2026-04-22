@@ -66,7 +66,7 @@ function getCalculatedRate(treatment, doctorOrderValue, weightKg, orderMode) {
   return NaN;
 }
 
-// ✅ التعديل المهم هنا (ربط العمر + الحالة + التحذير)
+// ✅ عرض النتيجة + تنبيه بدون صوت
 function showResult(value, treatment, ageGroup, condition) {
   resultBox.classList.remove("hidden");
 
@@ -82,39 +82,17 @@ function showResult(value, treatment, ageGroup, condition) {
     if (value < range.min) {
       warning = "⚠️ Below recommended range";
       color = "#d97706";
-      reason = "Dose may be ineffective and not achieve desired therapeutic effect.";
+      reason = "Dose is below recommended range. Please verify with physician.";
     } 
     else if (value > range.max) {
       warning = "🚨 Above recommended range";
       color = "#b91c1c";
-
-      // 🧠 أسباب حسب الدواء
-      if (treatment.id === "dopamine") {
-        reason = "High doses may cause arrhythmias and excessive vasoconstriction.";
-      } 
-      else if (treatment.id === "epinephrine") {
-        reason = "Risk of severe hypertension, tachycardia, and cardiac ischemia.";
-      }
-      else if (treatment.id === "norepinephrine") {
-        reason = "May cause severe vasoconstriction and tissue ischemia.";
-      }
-      else if (treatment.id === "fentanyl") {
-        reason = "Risk of respiratory depression and decreased consciousness.";
-      }
-      else if (treatment.id === "midazolam") {
-        reason = "May lead to over-sedation and respiratory depression.";
-      }
-      else if (treatment.id === "heparin") {
-        reason = "High doses increase risk of serious bleeding.";
-      }
-      else {
-        reason = "Dose exceeds recommended range. Verify order and patient condition.";
-      }
+      reason = "⚠️ Dose exceeds recommended range. Double check and confirm with physician immediately.";
     } 
     else {
       warning = "✔ Within recommended range";
       color = "#15803d";
-      reason = "Dose is within safe and effective therapeutic range.";
+      reason = "✔ Dose within expected range. Continue monitoring.";
     }
   } else {
     warning = "No reference range available";
@@ -151,6 +129,7 @@ function showResult(value, treatment, ageGroup, condition) {
     </div>
   `;
 }
+
 function validateInputs(treatment, doctorOrderValue, weightKg, orderMode, ageGroup, condition) {
   if (!treatment) return "Please select treatment.";
   if (!ageGroup) return "Please select age group.";
@@ -211,7 +190,7 @@ form.addEventListener("submit", (event) => {
   }
 
   setTimeout(() => {
-    showResult(rate, treatment, ageGroup, condition); // ✅ التعديل هنا
+    showResult(rate, treatment, ageGroup, condition);
     renderFormulaInfo(treatment);
 
     button.innerText = "Calculate";
