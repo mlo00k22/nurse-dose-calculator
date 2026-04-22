@@ -7,6 +7,7 @@ const resultBox = document.getElementById("result");
 const formulaInfoBox = document.getElementById("formulaInfo");
 const ageGroupSelect = document.getElementById("ageGroup");
 const conditionSelect = document.getElementById("condition");
+
 function formatNumber(value) {
   return Number(value).toFixed(3).replace(/\.?0+$/, "");
 }
@@ -65,25 +66,62 @@ function getCalculatedRate(treatment, doctorOrderValue, weightKg, orderMode) {
   return NaN;
 }
 
-function showResult(value, treatment) {
+// ✅ التعديل المهم هنا (ربط العمر + الحالة + التحذير)
+function showResult(value, treatment, ageGroup, condition) {
   resultBox.classList.remove("hidden");
 
   const unit = treatment.mode === "mgToMlConversion" ? "ml" : "ml/hr";
 
+  let warning = "";
+  let color = "#15803d";
+
+  const range = treatment.ranges?.[ageGroup]?.[condition];
+
+  if (range) {
+    if (value < range.min) {
+      warning = "⚠️ Below recommended range";
+      color = "#d97706";
+    } 
+    else if (value > range.max * 1.5) {
+      warning = "🚨 CRITICAL OVERDOSE";
+      color = "#7f1d1d";
+
+      const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+      audio.play();
+    }
+    else if (value > range.max) {
+      warning = "⚠️ Above recommended range";
+      color = "#b91c1c";
+    } 
+    else {
+      warning = "✔ Within recommended range";
+      color = "#15803d";
+    }
+  } else {
+    warning = "No reference range available";
+    color = "#6b7280";
+  }
+
   resultBox.innerHTML = `
     <div style="
-      background: linear-gradient(135deg, #e0f7fa, #ffffff);
-      border-left: 6px solid #0f6f87;
+      background: linear-gradient(135deg, #ffffff, #f0f9ff);
+      border-left: 6px solid ${color};
       border-radius: 12px;
       padding: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
       text-align: center;
     ">
       <h2 style="margin:0; color:#0f6f87;">Calculated Dose</h2>
+      
       <p style="font-size:28px; font-weight:bold; margin:10px 0; color:#114e60;">
         ${formatNumber(value)} ${unit}
       </p>
-      <p style="font-size:13px; color:#666;">
+
+      <p style="font-size:14px; font-weight:bold; color:${color};">
+        ${warning}
+      </p>
+
+      <p style="font-size:12px; color:#666;">
         Medication: ${treatment.name}
       </p>
     </div>
@@ -109,52 +147,53 @@ function validateInputs(treatment, doctorOrderValue, weightKg, orderMode, ageGro
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-
   const button = document.querySelector("button");
   button.innerText = "Calculating...";
   button.disabled = true;
+
   const treatment = getSelectedTreatment();
   const doctorOrderValue = Number(doctorOrderValueInput.value);
   const weightKg = Number(weightInput.value);
   const orderMode = doctorOrderUnitSelect.value;
-const ageGroup = ageGroupSelect.value;
-const condition = conditionSelect.value;
+  const ageGroup = ageGroupSelect.value;
+  const condition = conditionSelect.value;
+
   const validationMessage = validateInputs(
-  treatment,
-  doctorOrderValue,
-  weightKg,
-  orderMode,
-  ageGroup,
-  condition
-);
+    treatment,
+    doctorOrderValue,
+    weightKg,
+    orderMode,
+    ageGroup,
+    condition
+  );
 
-if (validationMessage) {
-  resultBox.classList.remove("hidden");
-  resultBox.innerHTML = `<p class="error">${validationMessage}</p>`;
+  if (validationMessage) {
+    resultBox.classList.remove("hidden");
+    resultBox.innerHTML = `<p class="error">${validationMessage}</p>`;
 
-  button.innerText = "Calculate";
-  button.disabled = false;
-  return;
-}
-  
+    button.innerText = "Calculate";
+    button.disabled = false;
+    return;
+  }
 
   const rate = getCalculatedRate(treatment, doctorOrderValue, weightKg, orderMode);
-if (!Number.isFinite(rate)) {
-  resultBox.classList.remove("hidden");
-  resultBox.innerHTML = `<p class="error">Unable to calculate. Check formula setup.</p>`;
 
-  button.innerText = "Calculate";
-  button.disabled = false;
-  return;
-}
+  if (!Number.isFinite(rate)) {
+    resultBox.classList.remove("hidden");
+    resultBox.innerHTML = `<p class="error">Unable to calculate. Check formula setup.</p>`;
 
-setTimeout(() => {
-  showResult(rate, treatment);
-  renderFormulaInfo(treatment);
+    button.innerText = "Calculate";
+    button.disabled = false;
+    return;
+  }
 
-  button.innerText = "Calculate";
-  button.disabled = false;
-}, 800);
+  setTimeout(() => {
+    showResult(rate, treatment, ageGroup, condition); // ✅ التعديل هنا
+    renderFormulaInfo(treatment);
+
+    button.innerText = "Calculate";
+    button.disabled = false;
+  }, 800);
 });
 
 treatmentSelect.addEventListener("change", () => {
