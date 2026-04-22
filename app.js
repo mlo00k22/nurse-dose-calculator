@@ -5,7 +5,8 @@ const weightInput = document.getElementById("weightKg");
 const form = document.getElementById("doseForm");
 const resultBox = document.getElementById("result");
 const formulaInfoBox = document.getElementById("formulaInfo");
-
+const ageGroupSelect = document.getElementById("ageGroup");
+const conditionSelect = document.getElementById("condition");
 function formatNumber(value) {
   return Number(value).toFixed(3).replace(/\.?0+$/, "");
 }
@@ -89,14 +90,19 @@ function showResult(value, treatment) {
   `;
 }
 
-function validateInputs(treatment, doctorOrderValue, weightKg, orderMode) {
+function validateInputs(treatment, doctorOrderValue, weightKg, orderMode, ageGroup, condition) {
   if (!treatment) return "Please select treatment.";
+  if (!ageGroup) return "Please select age group.";
+  if (!condition) return "Please select patient condition.";
+
   if (!Number.isFinite(doctorOrderValue) || doctorOrderValue <= 0) {
     return "Doctor order value must be greater than zero.";
   }
+
   if (orderMode === "kg_based" && (!Number.isFinite(weightKg) || weightKg <= 0)) {
     return "Weight must be greater than zero for per-kilogram orders.";
   }
+
   return "";
 }
 
@@ -111,13 +117,16 @@ form.addEventListener("submit", (event) => {
   const doctorOrderValue = Number(doctorOrderValueInput.value);
   const weightKg = Number(weightInput.value);
   const orderMode = doctorOrderUnitSelect.value;
-
+const ageGroup = ageGroupSelect.value;
+const condition = conditionSelect.value;
   const validationMessage = validateInputs(
-    treatment,
-    doctorOrderValue,
-    weightKg,
-    orderMode
-  );
+  treatment,
+  doctorOrderValue,
+  weightKg,
+  orderMode,
+  ageGroup,
+  condition
+);
 
 if (validationMessage) {
   resultBox.classList.remove("hidden");
