@@ -12,9 +12,7 @@
 body {
   margin: 0;
   font-family: "Trebuchet MS", Arial, sans-serif;
-  background: linear-gradient(270deg, #0f172a, #0f6f87, #0ea5e9);
-  background-size: 600% 600%;
-  animation: gradientMove 12s ease infinite;
+  background: linear-gradient(135deg, #0f172a, #0f6f87);
   color: #0f172a;
 }
 
@@ -23,7 +21,18 @@ body {
   50% {background-position: 100% 50%;}
   100% {background-position: 0% 50%;}
 }
+/* 🚨 اهتزاز */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
 
+.shake {
+  animation: shake 0.4s;
+}
 /* 📦 الكونتينر */
 .container {
   max-width: 560px;
