@@ -66,8 +66,8 @@ function getCalculatedRate(treatment, doctorOrderValue, weightKg, orderMode) {
   return NaN;
 }
 
-// ✅ عرض النتيجة + تنبيه بدون صوت
-function showResult(value, treatment, ageGroup, condition) {
+// ✅ التعديل المهم: المقارنة باستخدام doctorOrderValue
+function showResult(value, treatment, ageGroup, condition, doctorOrderValue) {
   resultBox.classList.remove("hidden");
 
   const unit = treatment.mode === "mgToMlConversion" ? "ml" : "ml/hr";
@@ -79,12 +79,12 @@ function showResult(value, treatment, ageGroup, condition) {
   const range = treatment.ranges?.[ageGroup]?.[condition];
 
   if (range) {
-    if (value < range.min) {
+    if (doctorOrderValue < range.min) {
       warning = "⚠️ Below recommended range";
       color = "#d97706";
       reason = "Dose is below recommended range. Please verify with physician.";
     } 
-    else if (value > range.max) {
+    else if (doctorOrderValue > range.max) {
       warning = "🚨 Above recommended range";
       color = "#b91c1c";
       reason = "⚠️ Dose exceeds recommended range. Double check and confirm with physician immediately.";
@@ -190,7 +190,7 @@ form.addEventListener("submit", (event) => {
   }
 
   setTimeout(() => {
-    showResult(rate, treatment, ageGroup, condition);
+    showResult(rate, treatment, ageGroup, condition, doctorOrderValue); // ✅ التعديل هنا
     renderFormulaInfo(treatment);
 
     button.innerText = "Calculate";
