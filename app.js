@@ -74,32 +74,52 @@ function showResult(value, treatment, ageGroup, condition) {
 
   let warning = "";
   let color = "#15803d";
-console.log("DEBUG:", treatment, ageGroup, condition, range);
+  let reason = "";
+
   const range = treatment.ranges?.[ageGroup]?.[condition];
 
   if (range) {
     if (value < range.min) {
       warning = "⚠️ Below recommended range";
       color = "#d97706";
+      reason = "Dose may be ineffective and not achieve desired therapeutic effect.";
     } 
-    else if (value > range.max * 1.5) {
-      warning = "🚨 CRITICAL OVERDOSE";
-      color = "#7f1d1d";
-
-      const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
-      audio.play();
-    }
     else if (value > range.max) {
-      warning = "⚠️ Above recommended range";
+      warning = "🚨 Above recommended range";
       color = "#b91c1c";
+
+      // 🧠 أسباب حسب الدواء
+      if (treatment.id === "dopamine") {
+        reason = "High doses may cause arrhythmias and excessive vasoconstriction.";
+      } 
+      else if (treatment.id === "epinephrine") {
+        reason = "Risk of severe hypertension, tachycardia, and cardiac ischemia.";
+      }
+      else if (treatment.id === "norepinephrine") {
+        reason = "May cause severe vasoconstriction and tissue ischemia.";
+      }
+      else if (treatment.id === "fentanyl") {
+        reason = "Risk of respiratory depression and decreased consciousness.";
+      }
+      else if (treatment.id === "midazolam") {
+        reason = "May lead to over-sedation and respiratory depression.";
+      }
+      else if (treatment.id === "heparin") {
+        reason = "High doses increase risk of serious bleeding.";
+      }
+      else {
+        reason = "Dose exceeds recommended range. Verify order and patient condition.";
+      }
     } 
     else {
       warning = "✔ Within recommended range";
       color = "#15803d";
+      reason = "Dose is within safe and effective therapeutic range.";
     }
   } else {
     warning = "No reference range available";
     color = "#6b7280";
+    reason = "No clinical reference defined for this medication.";
   }
 
   resultBox.innerHTML = `
@@ -117,17 +137,20 @@ console.log("DEBUG:", treatment, ageGroup, condition, range);
         ${formatNumber(value)} ${unit}
       </p>
 
-      <p style="font-size:14px; font-weight:bold; color:${color};">
+      <p style="font-size:15px; font-weight:bold; color:${color};">
         ${warning}
       </p>
 
-      <p style="font-size:12px; color:#666;">
+      <p style="font-size:13px; color:#444; margin-top:6px;">
+        ${reason}
+      </p>
+
+      <p style="font-size:12px; color:#666; margin-top:8px;">
         Medication: ${treatment.name}
       </p>
     </div>
   `;
 }
-
 function validateInputs(treatment, doctorOrderValue, weightKg, orderMode, ageGroup, condition) {
   if (!treatment) return "Please select treatment.";
   if (!ageGroup) return "Please select age group.";
