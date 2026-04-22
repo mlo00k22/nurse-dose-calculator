@@ -82,12 +82,12 @@ function showResult(value, treatment, ageGroup, condition, doctorOrderValue) {
     if (doctorOrderValue < range.min) {
       warning = "⚠️ Below recommended range";
       color = "#d97706";
-      reason = "Dose is below recommended range. Please verify with physician.";
+      reason = "Dose is below recommended range. Please verify with physician (doctor).";
     } 
     else if (doctorOrderValue > range.max) {
       warning = "🚨 Above recommended range";
       color = "#b91c1c";
-      reason = "⚠️ Dose exceeds recommended range. Double check and confirm with physician immediately.";
+      reason = "⚠️ Dose exceeds recommended range. Double check and Confirm with physician (doctor) immediately.";
     } 
     else {
       warning = "✔ Within recommended range";
