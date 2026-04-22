@@ -5,7 +5,7 @@
 /* 🌈 خلفية ناعمة */
 body {
   margin: 0;
-  background: #f4f1ea;
+  background: #f9f6ef; /* 🔥 أفتح */
   color: #1f6f78;
 }
 
@@ -134,39 +134,56 @@ button:hover {
 
 .icon {
   position: absolute;
-  font-size: 40px;
-  opacity: 0.8;
+  font-size: 70px; /* 🔥 كبرناها */
+  opacity: 0.9;
 }
 
 /* 📍 توزيعهم مثل الصورة */
 .duck {
-  top: 60px;
-  left: 20px;
+  top: 80px;
+  left: 40px;
 }
 
 .rainbow {
-  top: 80px;
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .star {
-  top: 70px;
-  right: 30px;
+  top: 90px;
+  right: 40px;
 }
 
 .bear {
-  bottom: 100px;
-  left: 20px;
+  bottom: 120px;
+  left: 40px;
 }
 
 .flower {
-  bottom: 80px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .ball {
-  bottom: 90px;
-  right: 30px;
+  bottom: 120px;
+  right: 40px;
+}  
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
+
+.icon {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* كل عنصر بسرعة مختلفة */
+.duck { animation-duration: 5s; }
+.rainbow { animation-duration: 6s; }
+.star { animation-duration: 4s; }
+.bear { animation-duration: 5.5s; }
+.flower { animation-duration: 4.5s; }
+.ball { animation-duration: 6.5s; }
