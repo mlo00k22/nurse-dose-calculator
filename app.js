@@ -88,16 +88,28 @@ function showResult(value, treatment, ageGroup, condition, doctorOrderValue) {
       warning = "🚨 Above recommended range";
       color = "#b91c1c";
       reason = "⚠️ Dose exceeds recommended range. Double check and Confirm with physician (doctor) immediately.";
-    
-  // 🔥 اهتزاز الكرت
+  // 🎯 بعد ما يترسم الكرت
   setTimeout(() => {
     const card = document.getElementById("result");
+
+    // إزالة أي تأثيرات قديمة
+    card.classList.remove("pulse-red", "flash", "shake");
+
+    // ⚡ Flash مرة وحدة
+    card.classList.add("flash");
+
+    // 🚨 اهتزاز سريع
     card.classList.add("shake");
 
     setTimeout(() => {
       card.classList.remove("shake");
     }, 400);
-  }, 100);
+
+    // 🔴 Pulse مستمر (خليها تشتغل)
+    setTimeout(() => {
+      card.classList.add("pulse-red");
+    }, 300);
+  }, 50);
 
   // 📱 اهتزاز الجوال (لو مدعوم)
   if (navigator.vibrate) {
